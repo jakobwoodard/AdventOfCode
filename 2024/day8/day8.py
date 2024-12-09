@@ -113,13 +113,8 @@ if __name__ == '__main__':
                 new_tuple = tuple([i, j])
                 if new_tuple in anti_node_locations:
                     count += 1
-                    print(f'Adding node: {i}, {j}')
                     input_matrix[i].append('#')
                 else:
                     input_matrix[i].append('.')
-        with open('output.txt', 'a+') as out:
-            for line in input_matrix:
-                out.writelines(line)
-                out.write('\n')
         print(count)
                     
