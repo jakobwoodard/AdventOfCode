@@ -19,8 +19,7 @@
       
 ### Fits whole file blocks into the empty spaces, starting from the right-most file      
 def wholeFiles(disk_map):
-    print("Original disk map")
-    print(disk_map)
+
     r_pointer = len(disk_map) - 1
     while r_pointer > 0:
         block_size = 0
@@ -30,8 +29,13 @@ def wholeFiles(disk_map):
         while disk_map[r_pointer] == cur_page:
             block_size+=1
             r_pointer-=1
-        print(f'Finding space for {cur_page}')
-        disk_map = getAvailableSpace(disk_map, block_size, cur_page, r_pointer)
+        temp = getAvailableSpace(disk_map, block_size, cur_page, r_pointer)
+        
+        # if we found a spot to put the value
+        if not temp == 0:
+            disk_map = temp
+            
+        
     return disk_map
     
                
@@ -48,19 +52,15 @@ def getAvailableSpace(disk_map, block_size, cur_page, r_pointer):
             
         # if we find enough available space, transfer
         if available_space >= block_size:
-            if r_pointer < i:
-                print(f'i: {i} r: {r_pointer}')
-                print(f"Breaking out when finding space for {cur_page}")
-                break
+            if i > r_pointer + 1:
+                return 0
             # Remove all values of the current page from the list using list comprehension
             disk_map = ['.' if x == cur_page else x for x in disk_map]
             # Put the new values in the list
             for j in range(available_space):
                 disk_map[i - j - 1] = cur_page
-            print("New disk map")
-            print(disk_map)
             return disk_map
-    return disk_map
+    return 0
         
             
             
@@ -68,7 +68,7 @@ def getAvailableSpace(disk_map, block_size, cur_page, r_pointer):
 
 
 if __name__ == '__main__':
-    with open('day9_input_small.txt', 'r') as f:
+    with open('day9_input.txt', 'r') as f:
         line = f.readline().strip()
         length = len(line)
         
@@ -91,7 +91,6 @@ if __name__ == '__main__':
                 read_block = True
             i+= 1
         disk_map = wholeFiles(disk_map)
-        print(disk_map)
         sum = 0
         for i, value in enumerate(disk_map):
             if not value == '.':
