@@ -98,25 +98,25 @@ def getPerimeter(cur_value, i, j, visited, queue):
     # check left
     if j - 1 >= 0 and garden[i][j - 1] == cur_value:
         # if we haven't already queued up the value
-        if not (tuple([i, j - 1]) in queue or tuple([i, j - 1]) in queue):
+        if not tuple([i, j - 1]) in queue:
             queue.append(tuple([i, j - 1]))
             perimeter += getPerimeter(cur_value, i, j - 1, visited, queue)[1]
         perimeter-=1
     # check right
     if j + 1 < len(garden[i]) and garden[i][j + 1] == cur_value:
-        if not (tuple([i, j + 1]) in queue or tuple([i, j + 1]) in queue):
+        if not tuple([i, j + 1]) in queue:
             queue.append(tuple([i, j + 1]))
             perimeter += getPerimeter(cur_value, i, j + 1, visited, queue)[1]
         perimeter-=1
     # check down
     if i + 1 < len(garden) and garden[i + 1][j] == cur_value:
-        if not (tuple([i + 1, j]) in queue or tuple([i + 1, j]) in visited):
+        if not tuple([i + 1, j]) in queue:
             queue.append(tuple([i + 1, j]))
             perimeter += getPerimeter(cur_value, i + 1, j, visited, queue)[1]
         perimeter-=1
     # check up
     if i - 1 >= 0 and garden[i - 1][j] == cur_value:
-        if not (tuple([i - 1, j]) in queue or tuple([i - 1, j]) in queue):
+        if not tuple([i - 1, j]) in queue:
             queue.append(tuple([i - 1, j]))
             perimeter += getPerimeter(cur_value, i - 1, j, visited, queue)[1]
         perimeter-=1
